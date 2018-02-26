@@ -21,7 +21,7 @@ pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", g
   selected <- tidyselect::vars_select(names(data), !!!rlang::quos(...))
   any_manual <- length(selected) > 0
 
-  if (!any_selected && !guess) {
+  if (!any_manual && !guess) {
     msg <- paste0(
       "No columns selected to pseudonymize. ",
       "Did you forget to set `guess = TRUE`?"
