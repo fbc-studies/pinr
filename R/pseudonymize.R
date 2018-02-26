@@ -7,6 +7,8 @@
 #' @param drop_pin Logical. Should identified PIN columns be dropped?
 #' @param pid_suffix Character scalar. Added to the end of the pin column names
 #'   for the corresponding pid columns if \code{drop_pin = FALSE}.
+#' @param guess Logical. Attempt to automatically identify and pseudonymize
+#'   columns that contain PINs?
 #' @return A data frame where PINs have probably been linked to pids. If
 #'   \code{drop_pin = TRUE} values in columns guessed to have PINs have been
 #'   replaced with matching pids from `key`.
