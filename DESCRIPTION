@@ -1,0 +1,22 @@
+Package: pinr
+Type: Package
+Title: Identify and Pseudonymize Finnish Personal Identity Codes (PINs)
+Version: 0.0.0.9006
+Authors@R:
+  person("Mikko", "Marttila",
+    email = "mikko.marttila@thl.fi",
+    role = c("aut", "cre"))
+Description: Tools for working with Finnish personal identity codes. Check
+    validity of or extract information from PINs. Implements a heuristic for
+    identifying columns that potentially contain PINs. Includes a helper
+    function for effortless pseudonymization.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr (>= 0.7.4),
+    purrr (>= 0.2.4),
+    stringr (>= 1.2.0),
+    tibble (>= 1.3.4),
+    lubridate (>= 1.7.1)
+RoxygenNote: 6.0.1
