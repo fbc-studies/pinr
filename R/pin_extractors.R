@@ -15,8 +15,8 @@ pin_dob <- function(x, try_fix = FALSE) {
   centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
   century <- centuries[separator]
 
-  if (try_fix & is.na(century)) {
-    century <- 19L
+  if (try_fix) {
+    century <- ifelse(is.na(century), 19L, century)
   }
 
   lubridate::make_date(century * 100L + yy, mm, dd)
