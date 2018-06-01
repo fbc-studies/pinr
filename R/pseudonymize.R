@@ -4,6 +4,9 @@
 #' @param key Named vector or data frame, used as a lookup table for pids. If
 #'   data frame, the first column is assumed to contain PINs and the second
 #'   column the corresponding pids.
+#' @param ... Manually selected columns to be pseudonymized. These are
+#'   automatically quoted and evaluated in the context of the data. Uses
+#'   `tidyselect` semantics for selection.
 #' @param drop_pin Logical. Should identified PIN columns be dropped?
 #' @param pid_suffix Character scalar. Added to the end of the pin column names
 #'   for the corresponding pid columns if \code{drop_pin = FALSE}.
