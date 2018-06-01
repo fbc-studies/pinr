@@ -33,16 +33,13 @@ pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", g
   }
 
   is_pin <- names(data) %in% selected
-  pin_cols <- if (any_manual) dplyr::select(data, !!!selected) else character(0)
 
   if (guess) {
     probably_pin <- purrr::map_lgl(data, is_probably_pin)
-    probably_pin_cols <- data[probably_pin]
-
     is_pin <- is_pin | probably_pin
-    pin_cols <- probably_pin_cols
   }
 
+  pin_cols <- data[is_pin]
   pid_cols <- purrr::map(pin_cols, ~ key[match(.x, names(key))])
   names(pid_cols) <- paste0(names(pin_cols), pid_suffix)
 
