@@ -22,6 +22,9 @@ column the corresponding pids.}
 
 \item{pid_suffix}{Character scalar. Added to the end of the pin column names
 for the corresponding pid columns if \code{drop_pin = FALSE}.}
+
+\item{guess}{Logical. Attempt to automatically identify and pseudonymize
+columns that contain PINs?}
 }
 \value{
 A data frame where PINs have probably been linked to pids. If
