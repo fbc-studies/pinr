@@ -18,8 +18,9 @@ is_probably_pin <- function(x) {
   x <- x[!is.na(x) & x != ""]  # poistetaan puuttuvat
   x <- stringr::str_trim(x)    # ja ylimaarainen whitespace
 
-  if (length(x) == 0)
+  if (length(x) == 0) {
     return(FALSE)
+  }
 
   # Merkkijonojen pituuteen perustuvia tarkistuksia -----
 
