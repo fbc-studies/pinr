@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/mikmart/pinr.svg?branch=master)](https://travis-ci.org/mikmart/pinr)
+[![Travis build status](https://travis-ci.org/mikmart/pinr.svg?branch=master)](https://travis-ci.org/mikmart/pinr) [![Coverage status](https://codecov.io/gh/mikmart/pinr/branch/master/graph/badge.svg)](https://codecov.io/github/mikmart/pinr?branch=master)
 
 pinr
 ====
