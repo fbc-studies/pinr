@@ -18,6 +18,10 @@ pseudonymise(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid",
 data frame, the first column is assumed to contain PINs and the second
 column the corresponding pids.}
 
+\item{...}{Manually selected columns to be pseudonymized. These are
+automatically quoted and evaluated in the context of the data. Uses
+`tidyselect` semantics for selection.}
+
 \item{drop_pin}{Logical. Should identified PIN columns be dropped?}
 
 \item{pid_suffix}{Character scalar. Added to the end of the pin column names
