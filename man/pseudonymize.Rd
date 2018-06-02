@@ -5,11 +5,11 @@
 \alias{pseudonymise}
 \title{Pseudonymize columns in data containing PINs}
 \usage{
-pseudonymize(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid",
-  guess = FALSE)
+pseudonymize(data, key, ..., guess = FALSE, remove = TRUE,
+  pid_suffix = "_pid")
 
-pseudonymise(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid",
-  guess = FALSE)
+pseudonymise(data, key, ..., guess = FALSE, remove = TRUE,
+  pid_suffix = "_pid")
 }
 \arguments{
 \item{data}{A data frame containing PINs to be pseudonymized.}
@@ -22,17 +22,17 @@ column the corresponding pids.}
 automatically quoted and evaluated in the context of the data. Uses
 `tidyselect` semantics for selection.}
 
-\item{drop_pin}{Logical. Should identified PIN columns be dropped?}
-
-\item{pid_suffix}{Character scalar. Added to the end of the pin column names
-for the corresponding pid columns if \code{drop_pin = FALSE}.}
-
 \item{guess}{Logical. Attempt to automatically identify and pseudonymize
 columns that contain PINs?}
+
+\item{remove}{Logical. Should identified PIN columns be dropped?}
+
+\item{pid_suffix}{Character scalar. Added to the end of the pin column names
+for the corresponding pid columns if \code{remove = FALSE}.}
 }
 \value{
 A data frame where PINs have probably been linked to pids. If
-  \code{drop_pin = TRUE} values in columns guessed to have PINs have been
+  \code{remove = TRUE} values in columns guessed to have PINs have been
   replaced with matching pids from `key`.
 }
 \description{
