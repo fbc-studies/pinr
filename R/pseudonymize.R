@@ -7,17 +7,18 @@
 #' @param ... Manually selected columns to be pseudonymized. These are
 #'   automatically quoted and evaluated in the context of the data. Uses
 #'   `tidyselect` semantics for selection.
-#' @param drop_pin Logical. Should identified PIN columns be dropped?
-#' @param pid_suffix Character scalar. Added to the end of the pin column names
-#'   for the corresponding pid columns if \code{drop_pin = FALSE}.
 #' @param guess Logical. Attempt to automatically identify and pseudonymize
 #'   columns that contain PINs?
+#' @param remove Logical. Should identified PIN columns be dropped?
+#' @param pid_suffix Character scalar. Added to the end of the pin column names
+#'   for the corresponding pid columns if \code{remove = FALSE}.
 #' @return A data frame where PINs have probably been linked to pids. If
-#'   \code{drop_pin = TRUE} values in columns guessed to have PINs have been
+#'   \code{remove = TRUE} values in columns guessed to have PINs have been
 #'   replaced with matching pids from `key`.
 #' @seealso \code{\link{is_probably_pin}} used to guess if columns contain PINs
 #' @export
-pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", guess = FALSE) {
+pseudonymize <- function(data, key, ..., guess = FALSE,
+                         remove = TRUE, pid_suffix = "_pid") {
 
   if (is.data.frame(key)) {
     key <- tibble::deframe(key)
@@ -47,7 +48,7 @@ pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", g
 
   names(pid_cols) <- paste0(names(pin_cols), pid_suffix)
 
-  if (drop_pin) {
+  if (remove) {
     data[is_pin] <- pid_cols
     data <- if (any_manual) dplyr::rename(data, !!!selected) else data
     return(data)
