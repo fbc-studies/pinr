@@ -32,30 +32,38 @@ library(pinr)
 df <- data.frame(pin = c("311280-888Y", "311280-888Y", "131052-308T"))
 key <- data.frame(pin = c("311280-888Y", "131052-308T"), pid = c(1, 2))
 
-pseudonymize(df, key, pid = pin, remove = FALSE)
-#>           pin pid
-#> 1 311280-888Y   1
-#> 2 311280-888Y   1
-#> 3 131052-308T   2
-```
-
-Rather than manually specifying columns containing PINs, you can also use a heuristic implemented in the `is_probably_pin()` function to `guess` which columns need to be pseudonymized:
-
-``` r
-pseudonymize(df, key, guess = TRUE)
-#>   pin
+pseudonymize(df, key, pid = pin)
+#>   pid
 #> 1   1
 #> 2   1
 #> 3   2
 ```
 
-Further, **pinr** includes helper functions for extracting data contained in the Finnish PINs such as the date of birth and sex of the person:
+The result is equivalent to looking up the `pid` from the key data frame, but **pinr** also takes care of managing the columns and naming in your data.
+
+``` r
+key$pid[match(df$pin, key$pin)]
+#> [1] 1 1 2
+```
+
+Rather than manually specifying columns containing PINs, you can also use a heuristic implemented in the `is_probably_pin()` function to `guess` which columns need to be pseudonymized:
+
+``` r
+pseudonymize(df, key, guess = TRUE, remove = FALSE)
+#>           pin pin_pid
+#> 1 311280-888Y       1
+#> 2 311280-888Y       1
+#> 3 131052-308T       2
+```
+
+**pinr** also includes helpers for extracting data contained in the Finnish PINs, such as the date of birth and sex:
 
 ``` r
 pins <- c("311280-888Y", "131052-308T")
 
 pin_dob(pins)
 #> [1] "1980-12-31" "1952-10-13"
+
 pin_sex(pins)
 #> [1] Female Female
 #> Levels: Male Female
