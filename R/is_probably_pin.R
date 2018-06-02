@@ -10,8 +10,9 @@ is_probably_pin <- function(x) {
   # on nopeampi ajaa, mika on olennaista kun aineistoja on kaytava lapi
   # tuhansia, ja aineistoissa on parhaimmillaan useita satoja sarakkeita.
 
-  # Jos ei ole merkkijono ei voi olla hetu
-  if (!is.character(x)) {
+  # The presence of check symbols and century separators in valid PINs
+  # means that PIN columns must be characters or factors
+  if (!is.character(x) && !is.factor(x)) {
     return(FALSE)
   }
 

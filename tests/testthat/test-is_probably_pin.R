@@ -8,3 +8,11 @@ test_that("valid pins are identified", {
   expect_true(is_probably_pin("131052-308T"))
   expect_true(is_probably_pin(x))
 })
+
+test_that("factors can be identified", {
+  expect_true(is_probably_pin(factor("131052-308T")))
+})
+
+test_that("numeric data are not identified", {
+  expect_false(is_probably_pin(131052308))
+})
