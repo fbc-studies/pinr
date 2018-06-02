@@ -11,16 +11,21 @@ pin_dob <- function(x, try_fix = FALSE) {
   mm <- as.integer(stringr::str_sub(x, 3L, 4L))
   yy <- as.integer(stringr::str_sub(x, 5L, 6L))
 
-  separator <- stringr::str_sub(x, 7L, 7L)
-  centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
-  century <- centuries[separator]
+  century <- pin_century(x)
 
   if (try_fix) {
     century <- ifelse(is.na(century), 19L, century)
   }
 
-  lubridate::make_date(century * 100L + yy, mm, dd)
+  lubridate::make_date(yy + century * 100L, mm, dd)
 }
+
+.centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
+
+pin_century <- function(x) {
+  .centuries[match(pin_get$sep(x), names(.centuries))]
+}
+
 
 #' @param factor Logical. Should the return value be a factor?
 #' @param language Character scalar. Language to use for factor labels if
@@ -38,12 +43,6 @@ pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
     x <- factor(x, levels = 1:2, labels = labs)
   }
   x
-}
-
-centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
-
-pin_century <- function(x) {
-  centuries[match(pin_get$sep(x), names(centuries))]
 }
 
 pin_get <- list(
