@@ -19,7 +19,6 @@
 #' @export
 pseudonymize <- function(data, key, ..., guess = FALSE,
                          remove = TRUE, pid_suffix = "_pid") {
-
   if (is.data.frame(key)) {
     key <- tibble::deframe(key)
   }
@@ -42,7 +41,8 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   is_pin <- nm %in% manual
 
   if (guess) {
-    is_pin <- is_pin | purrr::map_lgl(data, is_probably_pin)
+    maybe <- purrr::map_lgl(data, is_probably_pin)
+    is_pin <- is_pin | maybe
   }
 
   pid_cols <- purrr::map(data[is_pin], map_to_named, key)
