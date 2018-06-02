@@ -47,7 +47,7 @@ is_probably_pin <- function(x) {
   # Hetun "tietosisaltoon" perustuvia tarkistuksia -----
 
   # Jos syntymapaivaa ei saa paateltya niin ei varmaankaan ole hetu
-  invalid_dob <- is.na(lubridate::dmy(pin_get$dob(x)))
+  invalid_dob <- is.na(lubridate::dmy(pin_get$dob(x), quiet = TRUE))
   if (mean(invalid_dob) > 0.1) {
     return(FALSE)
   }
