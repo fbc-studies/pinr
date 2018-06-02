@@ -24,8 +24,11 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
     key <- tibble::deframe(key)
   }
 
-  selected <- tidyselect::vars_select(names(data), !!!rlang::quos(...))
-  any_manual <- length(selected) > 0
+  nm <- names(data)
+  dots <- rlang::quos(...)
+
+  manual <- tidyselect::vars_select(nm, !!!dots)
+  any_manual <- length(manual) > 0
 
   if (!any_manual && !guess) {
     msg <- paste0(
@@ -36,25 +39,31 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
     return(data)
   }
 
-  is_pin <- names(data) %in% selected
+  is_pin <- nm %in% manual
 
   if (guess) {
-    probably_pin <- purrr::map_lgl(data, is_probably_pin)
-    is_pin <- is_pin | probably_pin
+    is_pin <- is_pin | purrr::map_lgl(data, is_probably_pin)
   }
 
-  pin_cols <- data[is_pin]
-  pid_cols <- purrr::map(pin_cols, map_to_named, key)
-
-  names(pid_cols) <- paste0(names(pin_cols), pid_suffix)
+  pid_cols <- purrr::map(data[is_pin], map_to_named, key)
+  new <- tidyselect::vars_rename(nm, !!!manual)
 
   if (remove) {
     data[is_pin] <- pid_cols
-    data <- if (any_manual) dplyr::rename(data, !!!selected) else data
-    return(data)
+    names(data) <- names(new)
+  } else {
+    # original names should be preserved: set names of pid_cols
+    pin_nm <- new[is_pin]
+    pid_nm <- names(new)[is_pin]
+
+    suffixed <- paste0(pid_nm, pid_suffix)
+    pid_nm <- ifelse(pid_nm != pin_nm, pid_nm, suffixed)
+
+    names(pid_cols) <- pid_nm
+    data <- cbind(data, pid_cols)
   }
 
-  dplyr::bind_cols(data, pid_cols)
+  data
 }
 
 #' @rdname pseudonymize
