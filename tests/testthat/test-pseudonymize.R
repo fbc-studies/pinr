@@ -21,6 +21,20 @@ test_that("can pass data frame as key", {
   expect_equal(pseudonymize(df, key_df, pin)$pin, c(1, 1, 2))
 })
 
+test_that("can retain pin columns", {
+  out1 <- pseudonymize(df, key, pin, remove = FALSE)
+
+  expect_equal(out1$pin, df$pin)
+  expect_equal(out1$pin_pid, c(1, 1, 2))
+})
+
+test_that("can manually name new column when retaining pin", {
+  out2 <- pseudonymize(df, key, pid = pin, remove = FALSE)
+
+  expect_equal(out2$pin, df$pin)
+  expect_equal(out2$pid, c(1, 1, 2))
+})
+
 test_that("missing selection warns and returns data unchanged", {
   expect_warning({
     expect_equal(pseudonymize(df, key), df)
