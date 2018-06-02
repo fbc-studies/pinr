@@ -43,9 +43,7 @@ pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", g
   }
 
   pin_cols <- data[is_pin]
-  pid_cols <- purrr::map(pin_cols, ~ {
-    unname(key)[match(as.character(.x), names(key))]
-  })
+  pid_cols <- purrr::map(pin_cols, map_to_named, key)
 
   names(pid_cols) <- paste0(names(pin_cols), pid_suffix)
 
@@ -60,3 +58,7 @@ pseudonymize <- function(data, key, ..., drop_pin = TRUE, pid_suffix = "_pid", g
 
 #' @rdname pseudonymize
 pseudonymise <- pseudonymize
+
+map_to_named <- function(x, key) {
+  unname(key)[match(as.character(x), names(key))]
+}
