@@ -68,4 +68,18 @@ pin_dob(pins)
 pin_sex(pins)
 ```
 
+There is also a `pin_extract()` wrapper for these extraction functions that makes it easy to extract these data into new columns in a data frame context:
 
+```{r}
+pin_extract(df, pin)
+```
+
+All of the **pinr** functions that work with data frames are pipe-friendly, lending themselves to readable workflows such as this:
+
+```{r}
+library(magrittr) # for the pipe operator
+
+df %>% 
+  pin_extract(pin) %>% 
+  pseudonymize(key, pid = pin)
+```

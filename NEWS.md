@@ -2,6 +2,11 @@
 
 * Added a `NEWS.md` file to track changes to the package.
 
+## New features
+
+* Added new function `pin_extract()` for extracting the date of birth and
+sex from a PIN column in a data frame into new columns.
+
 ## Breaking changes
 
 * The `drop_pin` argument in `pseudonymize()` has been renamed to `remove`. This
