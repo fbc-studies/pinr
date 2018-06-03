@@ -20,7 +20,7 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
   pin <- tidyselect::vars_pull(nm, !!rlang::enquo(pin))
   pos <- match(pin, nm)
 
-  pin <- data[[pin]]
+  pin <- data[[pos]]
   if (remove) {
     data[[pos]] <- NULL
   }
