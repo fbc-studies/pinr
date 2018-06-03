@@ -68,3 +68,27 @@ pin_sex(pins)
 #> [1] Female Female
 #> Levels: Male Female
 ```
+
+There is also a `pin_extract()` wrapper for these extraction functions that makes it easy to extract these data into new columns in a data frame context:
+
+``` r
+pin_extract(df, pin)
+#>           pin        dob    sex
+#> 1 311280-888Y 1980-12-31 Female
+#> 2 311280-888Y 1980-12-31 Female
+#> 3 131052-308T 1952-10-13 Female
+```
+
+All of the **pinr** functions that work with data frames are pipe-friendly, lending themselves to readable workflows such as this:
+
+``` r
+library(magrittr) # for the pipe operator
+
+df %>% 
+  pin_extract(pin) %>% 
+  pseudonymize(key, pid = pin)
+#>   pid        dob    sex
+#> 1   1 1980-12-31 Female
+#> 2   1 1980-12-31 Female
+#> 3   2 1952-10-13 Female
+```
