@@ -59,7 +59,7 @@ pin_century <- function(x) {
 #' @describeIn pin_extractors Extract sex from PIN
 #' @export
 pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
-  x <- 2L - as.numeric(pin_get$end(x)) %% 2L
+  x <- 2L - as.integer(pin_get$end(x)) %% 2L
   if (factor) {
     lang <- match.arg(language)
     labs <- switch(lang,
