@@ -35,20 +35,14 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
 }
 
 #' @param x Character vector of PINs.
-#' @param try_fix Logical. Should missing century be replaced with 19?
 #' @describeIn pin_extractors Extract date of birth from PIN
 #' @export
-pin_dob <- function(x, try_fix = FALSE) {
+pin_dob <- function(x) {
   dd <- as.integer(stringr::str_sub(x, 1L, 2L))
   mm <- as.integer(stringr::str_sub(x, 3L, 4L))
   yy <- as.integer(stringr::str_sub(x, 5L, 6L))
 
   century <- pin_century(x)
-
-  if (try_fix) {
-    century <- ifelse(is.na(century), 19L, century)
-  }
-
   lubridate::make_date(yy + century * 100L, mm, dd)
 }
 

@@ -15,3 +15,6 @@ packages (such as `separate` and `unite` in **tidyr**).
 
 * When removing pin columns, now nothing gets suffixed and manual renames are
 applied. When retaining pin columns, pseudonymized columns that are not manually renamed gain the  `pid_suffix`.
+
+* Removed the `try_fix` option in `pin_dob()`. In the future, this
+feature will be implemented more comprehensively in a dedicated function.

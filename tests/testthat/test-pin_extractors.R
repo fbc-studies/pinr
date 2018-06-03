@@ -16,10 +16,6 @@ test_that("date of birth is extracted correctly", {
   expect_equal(pin_dob("131052A308T"), as.Date("2052-10-13"))
 })
 
-test_that("date of birth century can be imputed", {
-  expect_equal(pin_dob("131052308T", try_fix = TRUE), as.Date("1952-10-13"))
-})
-
 
 # Extraction to data frame ------------------------------------------------
 

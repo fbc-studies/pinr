@@ -9,7 +9,7 @@
 \usage{
 pin_extract(data, pin, into = c("dob", "sex"), remove = FALSE, ...)
 
-pin_dob(x, try_fix = FALSE)
+pin_dob(x)
 
 pin_sex(x, factor = TRUE, language = c("english", "finnish"))
 }
@@ -28,8 +28,6 @@ new columns that date of birth and sex are extracted into.}
 \item{...}{Additional arguments passed to `pin_sex`.}
 
 \item{x}{Character vector of PINs.}
-
-\item{try_fix}{Logical. Should missing century be replaced with 19?}
 
 \item{factor}{Logical. Should the return value be a factor?}
 
