@@ -2,6 +2,38 @@
 #' @name pin_extractors
 NULL
 
+#' @param data A data frame with a PIN column.
+#' @param pin The name of the column cotaining PINs. Can be a bare
+#'   name or a string. Uses `tidyselect` semantics to pick the column
+#'   from the data.
+#' @param into A character vector of length 2. Gives the names of the
+#'   new columns that date of birth and sex are extracted into.
+#' @param remove Logical. Should the original PIN column be removed?
+#' @param ... Additional arguments passed to `pin_sex`.
+#' @describeIn pin_extractors Extract date of birth and sex into new
+#'   columns in a supplied data frame.
+#' @export
+pin_extract <- function(data, pin, into = c("dob", "sex"),
+                        remove = FALSE, ...) {
+  nm <- names(data)
+
+  pin <- tidyselect::vars_pull(nm, !!rlang::enquo(pin))
+  pos <- match(pin, nm)
+
+  pin <- data[[pin]]
+  if (remove) {
+    data[[pos]] <- NULL
+  }
+
+  dob <- pin_dob(pin)
+  sex <- pin_sex(pin, ...)
+
+  new <- list(dob, sex)
+  names(new) <- into
+
+  tibble::add_column(data, !!!new, .after = pos)
+}
+
 #' @param x Character vector of PINs.
 #' @param try_fix Logical. Should missing century be replaced with 19?
 #' @describeIn pin_extractors Extract date of birth from PIN
@@ -33,7 +65,7 @@ pin_century <- function(x) {
 #' @describeIn pin_extractors Extract sex from PIN
 #' @export
 pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
-  x <- 2L - as.numeric(stringr::str_sub(x, 10L, 10L)) %% 2L
+  x <- 2L - as.numeric(pin_get$end(x)) %% 2L
   if (factor) {
     lang <- match.arg(language)
     labs <- switch(lang,

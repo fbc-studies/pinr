@@ -2,5 +2,6 @@
 
 export(is_probably_pin)
 export(pin_dob)
+export(pin_extract)
 export(pin_sex)
 export(pseudonymize)
