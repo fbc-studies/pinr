@@ -17,13 +17,11 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
                         remove = FALSE, ...) {
   nm <- names(data)
 
-  pin <- tidyselect::vars_pull(nm, !!rlang::enquo(pin))
+  pin <- rlang::enquo(pin)
+  pin <- tidyselect::vars_pull(nm, !!pin)
+  
   pos <- match(pin, nm)
-
   pin <- data[[pos]]
-  if (remove) {
-    data[[pos]] <- NULL
-  }
 
   dob <- pin_dob(pin)
   sex <- pin_sex(pin, ...)
@@ -31,7 +29,13 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
   new <- list(dob, sex)
   names(new) <- into
 
-  tibble::add_column(data, !!!new, .after = pos)
+  data <- tibble::add_column(data, !!!new, .after = pos)
+  
+  if (remove) {
+    data[[pos]] <- NULL
+  }
+  
+  data
 }
 
 #' @param x Character vector of PINs.
