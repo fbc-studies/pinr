@@ -19,7 +19,7 @@ test_that("date of birth is extracted correctly", {
 
 # Extraction to data frame ------------------------------------------------
 
-df <- data.frame(pin = c("311280-888Y", "131052-308T"), a = 1:2)
+df <- data.frame(a = 1:2, pin = c("311280-888Y", "131052-308T"), b = 1:2)
 
 test_that("pin data can be extracted to new columns", {
   out <- pin_extract(df, pin)
@@ -30,7 +30,7 @@ test_that("pin data can be extracted to new columns", {
 
 test_that("extracted columns come after original", {
   out <- pin_extract(df, pin)
-  expect_equal(match(c("dob", "sex"), names(out)), c(2, 3))
+  expect_equal(match(c("dob", "sex"), names(out)), c(3, 4))
 })
 
 test_that("can set the name of extracted columns", {
@@ -42,5 +42,10 @@ test_that("can set the name of extracted columns", {
 
 test_that("can remove original column", {
   expect_null(pin_extract(df, pin, remove = TRUE)$pin)
+})
+
+test_that("new columns are placed correctly when removing old column", {
+  out <- pin_extract(df, pin, remove = TRUE)
+  expect_equal(match(c("dob", "sex"), names(out)), c(2, 3))
 })
 
