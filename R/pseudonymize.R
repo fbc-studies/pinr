@@ -9,16 +9,17 @@
 #'   `tidyselect` semantics for selection.
 #' @param guess Logical. Attempt to automatically identify and pseudonymize
 #'   columns that contain PINs?
-#' @param remove Logical. Should identified PIN columns be dropped?
+#' @param replace Logical. Should PIN columns be replaced with the pseudonymized
+#'   versions?
 #' @param pid_suffix Character scalar. Added to the end of the pin column names
-#'   for the corresponding pid columns if \code{remove = FALSE}.
+#'   for the corresponding pid columns if \code{replace = FALSE}.
 #' @return A data frame where PINs have probably been linked to pids. If
-#'   \code{remove = TRUE} values in columns guessed to have PINs have been
+#'   \code{replace = TRUE} values in columns guessed to have PINs have been
 #'   replaced with matching pids from `key`.
 #' @seealso \code{\link{is_probably_pin}} used to guess if columns contain PINs
 #' @export
 pseudonymize <- function(data, key, ..., guess = FALSE,
-                         remove = TRUE, pid_suffix = "_pid") {
+                         replace = TRUE, pid_suffix = "_pid") {
   if (is.data.frame(key)) {
     key <- tibble::deframe(key)
   }
@@ -48,7 +49,7 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   pid_cols <- purrr::map(data[is_pin], map_to_named, key)
   new <- tidyselect::vars_rename(nm, !!!manual)
 
-  if (remove) {
+  if (replace) {
     data[is_pin] <- pid_cols
     names(data) <- names(new)
   } else {

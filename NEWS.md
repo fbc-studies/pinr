@@ -9,9 +9,9 @@ sex from a PIN column in a data frame into new columns.
 
 ## Breaking changes
 
-* The `drop_pin` argument in `pseudonymize()` has been renamed to `remove`. This
-is more consistent with names of arguments with similar functionality in other
-packages (such as `separate` and `unite` in **tidyr**).
+* The `drop_pin` argument in `pseudonymize()` has been renamed to `replace`.
+This more descriptive name is also more consistent with names of arguments with
+similar functionality in other packages.
 
 * Removed the `try_fix` option in `pin_dob()`. In the future, this
 feature will be implemented more comprehensively in a dedicated function (#12).

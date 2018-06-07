@@ -49,7 +49,7 @@ key$pid[match(df$pin, key$pin)]
 Rather than manually specifying columns containing PINs, you can also use a heuristic implemented in the `is_probably_pin()` function to `guess` which columns need to be pseudonymized:
 
 ``` r
-pseudonymize(df, key, guess = TRUE, remove = FALSE)
+pseudonymize(df, key, guess = TRUE, replace = FALSE)
 #>           pin pin_pid
 #> 1 311280-888Y       1
 #> 2 311280-888Y       1
