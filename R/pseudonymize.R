@@ -11,23 +11,36 @@
 #'   columns that contain PINs?
 #' @param replace Logical. Should PIN columns be replaced with the pseudonymized
 #'   versions?
-#' @param pid_suffix Character scalar. Added to the end of the pin column names
-#'   for the corresponding pid columns if \code{replace = FALSE}.
+#' @param rename Logical or function. If `FALSE`, pseudonymized columns will
+#'   not be automatically renamed; if `TRUE`, they will be suffixed with
+#'   `"_pid"`; if a function, will be called on PIN column names to generate
+#'   new names for the pseudonymized columns. Manually specified new names will
+#'   always be used regardless.
 #' @return A data frame where PINs have probably been linked to pids. If
 #'   \code{replace = TRUE} values in columns guessed to have PINs have been
 #'   replaced with matching pids from `key`.
 #' @seealso \code{\link{is_probably_pin}} used to guess if columns contain PINs
 #' @export
 pseudonymize <- function(data, key, ..., guess = FALSE,
-                         replace = TRUE, pid_suffix = "_pid") {
+                         replace = TRUE, rename = !replace) {
   if (is.data.frame(key)) {
     key <- tibble::deframe(key)
   }
 
-  nm <- names(data)
-  dots <- rlang::quos(...)
+  if (is.logical(rename)) {
+    if (rename) {
+      rename <- function(x) paste0(x, "_pid")
+    } else {
+      rename <- base::identity
+    }
+  } else if (!is.function(rename)) {
+    stop("`rename` must be logical or a function, not ",
+         typeof(rename), call. = FALSE)
+  }
 
-  manual <- tidyselect::vars_select(nm, !!!dots)
+  nm <- names(data)
+
+  manual <- tidyselect::vars_select(nm, ...)
   any_manual <- length(manual) > 0
 
   if (!any_manual && !guess) {
@@ -47,21 +60,21 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   }
 
   pid_cols <- purrr::map(data[is_pin], map_to_named, key)
-  new <- tidyselect::vars_rename(nm, !!!manual)
+
+  new_nm <- names(tidyselect::vars_rename(nm, !!!manual))
+  unchanged <- is_pin & new_nm == nm
+
+  renamed <- rename(new_nm[unchanged])
+  new_nm[unchanged] <- renamed
 
   if (replace) {
     data[is_pin] <- pid_cols
-    names(data) <- names(new)
+    names(data) <- new_nm
   } else {
-    # original names should be preserved: set names of pid_cols
-    pin_nm <- new[is_pin]
-    pid_nm <- names(new)[is_pin]
-
-    suffixed <- paste0(pid_nm, pid_suffix)
-    pid_nm <- ifelse(pid_nm != pin_nm, pid_nm, suffixed)
-
-    names(pid_cols) <- pid_nm
     data <- cbind(data, pid_cols)
+
+    pid_nm <- new_nm[is_pin]
+    names(data) <- c(nm, pid_nm)
   }
 
   data
