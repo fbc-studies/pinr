@@ -17,19 +17,38 @@ test_that("can rename manually selected column", {
   expect_equal(match("pid", names(out)), 1)
 })
 
+test_that("default rename works with manual selection", {
+  out <- pseudonymize(df, key, pin, rename = TRUE)
+  expect_equal(names(out)[1], "pin_pid")
+})
+
+test_that("default rename works with guessed selection", {
+  out <- pseudonymize(df, key, guess = TRUE, rename = TRUE)
+  expect_equal(names(out)[1], "pin_pid")
+})
+
+test_that("can rename selected columns with a function", {
+  out <- pseudonymize(df, key, pin, rename = toupper)
+  expect_equal(names(out)[1], "PIN")
+})
+
+test_that("rename throws error if not logical or function", {
+  expect_error(pseudonymize(df, key, rename = NULL), "`rename` must be")
+})
+
 test_that("can pass data frame as key", {
   expect_equal(pseudonymize(df, key_df, pin)$pin, c(1, 1, 2))
 })
 
 test_that("can retain pin columns", {
-  out1 <- pseudonymize(df, key, pin, remove = FALSE)
+  out1 <- pseudonymize(df, key, pin, replace = FALSE)
 
   expect_equal(out1$pin, df$pin)
   expect_equal(out1$pin_pid, c(1, 1, 2))
 })
 
 test_that("can manually name new column when retaining pin", {
-  out2 <- pseudonymize(df, key, pid = pin, remove = FALSE)
+  out2 <- pseudonymize(df, key, pid = pin, replace = FALSE)
 
   expect_equal(out2$pin, df$pin)
   expect_equal(out2$pid, c(1, 1, 2))
