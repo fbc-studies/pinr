@@ -1,23 +1,35 @@
 #' Guess if a vector contains PINs
 #'
 #' @param x Vector to test for pin-iness.
+#' @param ... Further arguments passed down to methods. Currently unused.
 #' @return Logcial. Is the vector likely to contain pins?
 #' @export
-is_probably_pin <- function(x) {
+is_probably_pin <- function(x, ...) {
+  UseMethod("is_probably_pin")
+}
+
+#' @export
+is_probably_pin.default <- function(x, ...) {
+  # A collection of PINs is almost certainly a character vector or factor:
+  # this is due to the presence of check symbols and century separators
+  FALSE
+}
+
+#' @export
+is_probably_pin.factor <- function(x, ...) {
+  is_probably_pin(as.character(x), ...)
+}
+
+#' @export
+is_probably_pin.character <- function(x, ...) {
 
   # Tavoitteena "fail fast" eli mahdollisimman nopeasti (ja mahdollisimman
   # vahin tarkistuksin) paatetaan etta kyseessa ei ole hetu. Nain funktiota
   # on nopeampi ajaa, mika on olennaista kun aineistoja on kaytava lapi
   # tuhansia, ja aineistoissa on parhaimmillaan useita satoja sarakkeita.
 
-  # The presence of check symbols and century separators in valid PINs
-  # means that PIN columns must be characters or factors
-  if (!is.character(x) && !is.factor(x)) {
-    return(FALSE)
-  }
-
-  x <- x[!is.na(x) & x != ""]  # poistetaan puuttuvat
-  x <- stringr::str_trim(x)    # ja ylimaarainen whitespace
+  x <- x[!is.na(x) & x != ""]  # drop missing an empty strings
+  x <- stringr::str_trim(x)    # as well as extra whitespace
 
   if (length(x) == 0) {
     return(FALSE)

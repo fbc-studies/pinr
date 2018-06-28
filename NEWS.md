@@ -1,3 +1,9 @@
+# pinr 0.0.0.9007
+
+* `is_probably_pin()` is now a generic function, allowing custom methods
+for different classes.
+
+
 # pinr 0.0.0.9006
 
 * Added a `NEWS.md` file to track changes to the package.

@@ -20,7 +20,7 @@ Imports:
     lubridate (>= 1.7.1),
     rlang,
     tidyselect
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Suggests: 
     testthat,
     covr

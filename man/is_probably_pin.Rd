@@ -4,10 +4,12 @@
 \alias{is_probably_pin}
 \title{Guess if a vector contains PINs}
 \usage{
-is_probably_pin(x)
+is_probably_pin(x, ...)
 }
 \arguments{
 \item{x}{Vector to test for pin-iness.}
+
+\item{...}{Further arguments passed down to methods. Currently unused.}
 }
 \value{
 Logcial. Is the vector likely to contain pins?
