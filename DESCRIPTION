@@ -1,7 +1,7 @@
 Package: pinr
 Type: Package
 Title: Tools for working with Finnish personal identity codes
-Version: 0.0.0.9006
+Version: 0.0.0.9007
 Authors@R:
   person("Mikko", "Marttila",
     email = "mikko.marttila@thl.fi",
