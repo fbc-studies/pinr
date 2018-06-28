@@ -44,11 +44,8 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   any_manual <- length(manual) > 0
 
   if (!any_manual && !guess) {
-    msg <- paste0(
-      "No columns selected to pseudonymize. ",
-      "Did you forget to set `guess = TRUE`?"
-    )
-    warning(msg, call. = FALSE)
+    warning("No columns selected to pseudonymize. ",
+            "Did you forget to set `guess = TRUE`?", call. = FALSE)
     return(data)
   }
 
@@ -72,7 +69,6 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
     names(data) <- new_nm
   } else {
     data <- cbind(data, pid_cols)
-
     pid_nm <- new_nm[is_pin]
     names(data) <- c(nm, pid_nm)
   }
