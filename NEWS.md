@@ -3,6 +3,9 @@
 * `is_probably_pin()` is now a generic function, allowing custom methods
 for different classes.
 
+* When `replace = FALSE`, `pseudonymize()`'d columns are now insterted directly
+after the corresponding PIN column, rather than appended to the end of the data.
+
 
 # pinr 0.0.0.9006
 

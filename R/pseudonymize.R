@@ -39,10 +39,9 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   }
 
   nm <- names(data)
-
   manual <- tidyselect::vars_select(nm, ...)
-  any_manual <- length(manual) > 0
 
+  any_manual <- length(manual) > 0
   if (!any_manual && !guess) {
     warning("No columns selected to pseudonymize. ",
             "Did you forget to set `guess = TRUE`?", call. = FALSE)
@@ -57,20 +56,20 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   }
 
   pid_cols <- purrr::map(data[is_pin], map_to_named, key)
-
   new_nm <- names(tidyselect::vars_rename(nm, !!!manual))
-  unchanged <- is_pin & new_nm == nm
 
-  renamed <- rename(new_nm[unchanged])
-  new_nm[unchanged] <- renamed
+  to_rename <- new_nm == nm & is_pin
+  new_nm[to_rename] <- rename(new_nm[to_rename])
 
   if (replace) {
     data[is_pin] <- pid_cols
     names(data) <- new_nm
   } else {
-    data <- cbind(data, pid_cols)
+    pin_pos <- which(is_pin)
     pid_nm <- new_nm[is_pin]
-    names(data) <- c(nm, pid_nm)
+    names(pid_cols) <- pid_nm
+
+    data <- add_cols(data, pid_cols, pin_pos)
   }
 
   data
@@ -81,4 +80,21 @@ pseudonymise <- pseudonymize
 
 map_to_named <- function(x, key) {
   unname(key)[match(as.character(x), names(key))]
+}
+
+#' Add new columns to a data frame
+#'
+#' Extends `tibble::add_column` to insert columns to multiple positions.
+#'
+#' @param data a data frame where new columns are inserted
+#' @param cols named list of columns to add to `data`
+#' @param pos positions to insert columns after
+add_cols <- function(data, cols, pos) {
+  stopifnot(length(cols) == length(pos))
+
+  for (i in rev(seq_along(cols))) {
+    data <- tibble::add_column(data, !!!cols[i], .after = pos[i])
+  }
+
+  data
 }
