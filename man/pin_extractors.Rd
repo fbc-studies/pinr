@@ -4,12 +4,15 @@
 \alias{pin_extractors}
 \alias{pin_extract}
 \alias{pin_dob}
+\alias{pin_century}
 \alias{pin_sex}
 \title{Extract data from PIN}
 \usage{
 pin_extract(data, pin, into = c("dob", "sex"), remove = FALSE, ...)
 
 pin_dob(x)
+
+pin_century(x)
 
 pin_sex(x, factor = TRUE, language = c("english", "finnish"))
 }
@@ -43,6 +46,8 @@ Extract data from PIN
 columns in a supplied data frame.
 
 \item \code{pin_dob}: Extract date of birth from PIN
+
+\item \code{pin_century}: Extract century of birth from PIN
 
 \item \code{pin_sex}: Extract sex from PIN
 }}
