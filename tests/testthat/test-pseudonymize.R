@@ -48,9 +48,10 @@ test_that("can retain pin columns", {
 })
 
 test_that("pid columns are insterted after pin columns", {
-  out <- pseudonymize(df, key, pid = pin, replace = FALSE)
-  pin_pos <- which(names(out) == "pin")
-  expect_equal(which(names(out) == "pid"), pin_pos + 1)
+  df2 <- transform(df, pin2 = pin)
+  out <- pseudonymize(df2, key, pid1 = pin, pid2 = pin2, replace = FALSE)
+
+  expect_equal(match(c("pid1", "pid2"), names(out)), c(2, 5))
 })
 
 test_that("can manually name new column when retaining pin", {
