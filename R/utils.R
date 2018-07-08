@@ -8,8 +8,14 @@ map_to_named <- function(x, key) {
 #'
 #' @param data a data frame where new columns are inserted
 #' @param cols named list of columns to add to `data`
-#' @param pos positions to insert columns after
+#' @param pos integer vector of positions to insert columns after
+#' @noRd
 add_cols <- function(data, cols, pos) {
+  if (length(pos) == 1) {
+    data <- tibble::add_column(data, !!!cols, .after = pos)
+    return(data)
+  }
+
   stopifnot(length(cols) == length(pos))
 
   for (i in rev(seq_along(cols))) {

@@ -33,7 +33,7 @@ test_that("can rename selected columns with a function", {
 })
 
 test_that("rename throws error if not logical or function", {
-  expect_error(pseudonymize(df, key, rename = NULL), "`rename` must be")
+  expect_error(pseudonymize(df, key, pin, rename = NULL), "`rename` must be")
 })
 
 test_that("can pass data frame as key", {

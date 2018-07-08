@@ -27,7 +27,50 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
     key <- tibble::deframe(key)
   }
 
+  nm <- names(data)
+  manual <- tidyselect::vars_select(nm, ...)
+
+  if (length(manual) == 0 && !guess) {
+    warning("No columns selected to pseudonymize. ",
+            "Did you forget to set `guess = TRUE`?", call. = FALSE)
+    return(data)
+  }
+
+  is_pin <- nm %in% manual
+
+  if (guess) {
+    probably <- purrr::map_lgl(data, is_probably_pin)
+    is_pin <- is_pin | probably
+  }
+
+  pid_cols <- purrr::map(data[is_pin], map_to_named, key)
+
+  new_nm <- names(tidyselect::vars_rename(nm, !!!manual))
+  to_rename <- is_pin & new_nm == nm
+
+  rename <- get_rename_fun(rename)
+  new_nm[to_rename] <- rename(new_nm[to_rename])
+
+  if (replace) {
+    data[is_pin] <- pid_cols
+    names(data) <- new_nm
+  } else {
+    pid_nm <- new_nm[is_pin]
+    names(pid_cols) <- pid_nm
+
+    pin_pos <- which(is_pin)
+    data <- add_cols(data, pid_cols, pin_pos)
+  }
+
+  data
+}
+
+#' @rdname pseudonymize
+pseudonymise <- pseudonymize
+
+get_rename_fun <- function(rename) {
   if (is.logical(rename)) {
+    stopifnot(!is.na(rename))
     if (rename) {
       rename <- function(x) paste0(x, "_pid")
     } else {
@@ -38,42 +81,5 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
          typeof(rename), call. = FALSE)
   }
 
-  nm <- names(data)
-  manual <- tidyselect::vars_select(nm, ...)
-
-  any_manual <- length(manual) > 0
-  if (!any_manual && !guess) {
-    warning("No columns selected to pseudonymize. ",
-            "Did you forget to set `guess = TRUE`?", call. = FALSE)
-    return(data)
-  }
-
-  is_pin <- nm %in% manual
-
-  if (guess) {
-    maybe <- purrr::map_lgl(data, is_probably_pin)
-    is_pin <- is_pin | maybe
-  }
-
-  pid_cols <- purrr::map(data[is_pin], map_to_named, key)
-  new_nm <- names(tidyselect::vars_rename(nm, !!!manual))
-
-  to_rename <- new_nm == nm & is_pin
-  new_nm[to_rename] <- rename(new_nm[to_rename])
-
-  if (replace) {
-    data[is_pin] <- pid_cols
-    names(data) <- new_nm
-  } else {
-    pin_pos <- which(is_pin)
-    pid_nm <- new_nm[is_pin]
-    names(pid_cols) <- pid_nm
-
-    data <- add_cols(data, pid_cols, pin_pos)
-  }
-
-  data
+  rename
 }
-
-#' @rdname pseudonymize
-pseudonymise <- pseudonymize

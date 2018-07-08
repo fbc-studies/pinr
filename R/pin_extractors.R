@@ -29,7 +29,7 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
   new <- list(dob, sex)
   names(new) <- into
 
-  data <- tibble::add_column(data, !!!new, .after = pos)
+  data <- add_cols(data, new, pos)
 
   if (remove) {
     data[[pos]] <- NULL
@@ -47,7 +47,9 @@ pin_dob <- function(x) {
   yy <- as.integer(stringr::str_sub(x, 5L, 6L))
 
   century <- pin_century(x)
-  lubridate::make_date(yy + century * 100L, mm, dd)
+  year <- century * 100L + yy
+
+  lubridate::make_date(year, mm, dd)
 }
 
 #' @describeIn pin_extractors Extract century of birth from PIN
@@ -65,14 +67,17 @@ pin_century <- function(x) {
 #' @export
 pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
   x <- 2L - as.integer(pin_get$end(x)) %% 2L
+
   if (factor) {
     lang <- match.arg(language)
     labs <- switch(lang,
       english = c("Male", "Female"),
       finnish = c("Mies", "Nainen")
     )
+
     x <- factor(x, levels = 1:2, labels = labs)
   }
+
   x
 }
 
