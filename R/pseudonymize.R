@@ -77,24 +77,3 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
 
 #' @rdname pseudonymize
 pseudonymise <- pseudonymize
-
-map_to_named <- function(x, key) {
-  unname(key)[match(as.character(x), names(key))]
-}
-
-#' Add new columns to a data frame
-#'
-#' Extends `tibble::add_column` to insert columns to multiple positions.
-#'
-#' @param data a data frame where new columns are inserted
-#' @param cols named list of columns to add to `data`
-#' @param pos positions to insert columns after
-add_cols <- function(data, cols, pos) {
-  stopifnot(length(cols) == length(pos))
-
-  for (i in rev(seq_along(cols))) {
-    data <- tibble::add_column(data, !!!cols[i], .after = pos[i])
-  }
-
-  data
-}
