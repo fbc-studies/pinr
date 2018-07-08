@@ -19,7 +19,7 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
 
   pin <- rlang::enquo(pin)
   pin <- tidyselect::vars_pull(nm, !!pin)
-  
+
   pos <- match(pin, nm)
   pin <- data[[pos]]
 
@@ -30,11 +30,11 @@ pin_extract <- function(data, pin, into = c("dob", "sex"),
   names(new) <- into
 
   data <- tibble::add_column(data, !!!new, .after = pos)
-  
+
   if (remove) {
     data[[pos]] <- NULL
   }
-  
+
   data
 }
 
@@ -50,12 +50,13 @@ pin_dob <- function(x) {
   lubridate::make_date(yy + century * 100L, mm, dd)
 }
 
-.centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
-
+#' @describeIn pin_extractors Extract century of birth from PIN
+#' @export
 pin_century <- function(x) {
-  .centuries[match(pin_get$sep(x), names(.centuries))]
+  map_to_named(pin_get$sep(x), .centuries)
 }
 
+.centuries <- c("+" = 18L, "-" = 19L, "A" = 20L)
 
 #' @param factor Logical. Should the return value be a factor?
 #' @param language Character scalar. Language to use for factor labels if

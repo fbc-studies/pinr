@@ -1,5 +1,8 @@
 # pinr 0.0.0.9007
 
+* `pin_century()` is now exported: use it to get the century of birth based
+on the separator character present in a PIN.
+
 * `is_probably_pin()` is now a generic function, allowing custom methods
 for different classes.
 
