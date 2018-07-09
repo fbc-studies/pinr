@@ -32,7 +32,8 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
 
   if (length(manual) == 0 && !guess) {
     warning("No columns selected to pseudonymize. ",
-            "Did you forget to set `guess = TRUE`?", call. = FALSE)
+            "Did you forget to set `guess = TRUE`?",
+            call. = FALSE, immediate. = TRUE)
     return(data)
   }
 
