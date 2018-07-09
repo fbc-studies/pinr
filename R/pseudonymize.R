@@ -39,11 +39,11 @@ pseudonymize <- function(data, key, ..., guess = FALSE,
   is_pin <- nm %in% manual
 
   if (guess) {
-    probably <- purrr::map_lgl(data, is_probably_pin)
+    probably <- vapply(data, is_probably_pin, logical(1))
     is_pin <- is_pin | probably
   }
 
-  pid_cols <- purrr::map(data[is_pin], map_to_named, key)
+  pid_cols <- lapply(data[is_pin], map_to_named, key)
 
   new_nm <- names(tidyselect::vars_rename(nm, !!!manual))
   to_rename <- is_pin & new_nm == nm
