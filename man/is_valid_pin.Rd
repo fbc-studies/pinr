@@ -8,6 +8,8 @@ is_valid_pin(x, ...)
 }
 \arguments{
 \item{x}{vector to check for PIN validity}
+
+\item{...}{additional arguments passed down to methods. Currently unused.}
 }
 \value{
 logical vector of `length(x)`

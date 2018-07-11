@@ -1,5 +1,6 @@
 #' Check if valid PIN
 #' @param x vector to check for PIN validity
+#' @param ... additional arguments passed down to methods. Currently unused.
 #' @return logical vector of `length(x)`
 #' @export
 is_valid_pin <- function(x, ...) {
