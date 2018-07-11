@@ -1,5 +1,7 @@
 # pinr 0.0.0.9007
 
+* New `is_valid_pin()` function: check if elements of a vector are valid PINs.
+
 * `pin_century()` is now exported: use it to get the century of birth based
 on the separator character present in a PIN.
 
