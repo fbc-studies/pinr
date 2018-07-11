@@ -58,9 +58,8 @@ is_probably_pin.character <- function(x, ...) {
 
   # Hetun "tietosisaltoon" perustuvia tarkistuksia -----
 
-  # Jos syntymapaivaa ei saa paateltya niin ei varmaankaan ole hetu
-  invalid_dob <- is.na(lubridate::dmy(pin_get$dob(x), quiet = TRUE))
-  if (mean(invalid_dob) > 0.1) {
+  # Significant portion not having valid dates of birth
+  if (mean(has_valid_dob(x)) < 0.9) {
     return(FALSE)
   }
 
