@@ -56,12 +56,16 @@ is_probably_pin.character <- function(x, ...) {
     return(FALSE)
   }
 
-  # Hetun "tietosisaltoon" perustuvia tarkistuksia -----
+  # Checks based on information contained in PINs -----
 
   # Significant portion not having valid dates of birth
   if (mean(has_valid_dob(x)) < 0.9) {
     return(FALSE)
   }
+  
+  # Validity of separators should NOT be checked: sometimes
+  # PINs were stored with length 10 with the separator removed,
+  # the implicit assumption being a `-` separator.
 
   # Lapi paasee viela:
   #  - merkkijonot,
