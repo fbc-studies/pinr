@@ -41,7 +41,7 @@ has_valid_checksum <- function(x) {
 pin_checksum <- function(x) {
   n <- paste0(pin_get$dob(x), pin_get$end(x))
   n <- suppressWarnings(as.integer(n))
-  .check_chars[n %% 31 + 1L]
+  .check_chars[n %% 31L + 1L]
 }
 
 .check_chars <- c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
