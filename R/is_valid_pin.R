@@ -18,7 +18,7 @@ is_valid_pin.factor <- function(x, ...) {
 
 #' @export
 is_valid_pin.character <- function(x, ...) {
-  has_valid_sep(x) & has_valid_dob(x) & has_valid_checksum(x)
+  has_valid_dob(x) & has_valid_sep(x) & has_valid_checksum(x)
 }
 
 has_valid_dob <- function(x) {
