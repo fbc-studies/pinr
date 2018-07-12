@@ -12,6 +12,9 @@ test_that("factors can be identified", {
   expect_true(is_probably_pin(factor("131052-308T")))
 })
 
+test_that("data.frames are handled", {
+  expect_true(is_probably_pin((data.frame(c("131052-308T"), c('test')))))
+})
 
 # Not matching ------------------------------------------------------------
 
