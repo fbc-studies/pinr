@@ -2,7 +2,7 @@
 #'
 #' @param x Vector to test for pin-iness.
 #' @param ... Further arguments passed down to methods. Currently unused.
-#' @return Logcial. Is the vector likely to contain pins?
+#' @return Logical. Is the vector likely to contain pins?
 #' @export
 is_probably_pin <- function(x, ...) {
   UseMethod("is_probably_pin")
@@ -62,7 +62,7 @@ is_probably_pin.character <- function(x, ...) {
   if (mean(has_valid_dob(x)) < 0.9) {
     return(FALSE)
   }
-  
+
   # Validity of separators should NOT be checked: sometimes
   # PINs were stored with length 10 with the separator removed,
   # the implicit assumption being a `-` separator.
