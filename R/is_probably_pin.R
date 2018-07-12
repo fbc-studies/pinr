@@ -22,7 +22,7 @@ is_probably_pin.factor <- function(x, ...) {
 
 #' @export
 is_probably_pin.data.frame <- function(x, ...) {
-  map_lgl(x, is_probably_pin) %>% any()
+  any(vapply(x, is_probably_pin, logical(1)))
 }
 
 #' @export
