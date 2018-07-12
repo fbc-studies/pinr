@@ -21,6 +21,11 @@ is_probably_pin.factor <- function(x, ...) {
 }
 
 #' @export
+is_probably_pin.data.frame <- function(x, ...) {
+  map_lgl(x, is_probably_pin) %>% any()
+}
+
+#' @export
 is_probably_pin.character <- function(x, ...) {
 
   # Tavoitteena "fail fast" eli mahdollisimman nopeasti (ja mahdollisimman

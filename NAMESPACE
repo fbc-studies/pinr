@@ -3,6 +3,7 @@
 S3method(is_probably_pin,character)
 S3method(is_probably_pin,default)
 S3method(is_probably_pin,factor)
+S3method(is_probably_pin, data.frame)
 S3method(is_valid_pin,character)
 S3method(is_valid_pin,default)
 S3method(is_valid_pin,factor)
