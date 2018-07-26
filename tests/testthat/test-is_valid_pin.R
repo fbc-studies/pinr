@@ -25,3 +25,12 @@ test_that("pin validity checks work", {
 
   expect_equal(is_valid_pin(c("131052-308T", "")), c(TRUE, FALSE))
 })
+
+test_that("pin_validate throws informative errors", {
+  expect_error(pin_validate(LETTERS), "* A")
+  expect_error(pin_validate(LETTERS), "* B")
+  expect_error(pin_validate(LETTERS), "* C")
+  expect_error(pin_validate(LETTERS), "* D")
+  expect_error(pin_validate(LETTERS), "* E")
+  expect_error(pin_validate(LETTERS), "and \\d+ more")
+})
