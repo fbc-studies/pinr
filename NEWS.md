@@ -1,4 +1,14 @@
+# pinr 0.1.0
+
+* New `pin()` function for creating new PINs from date and order of birth.
+
+* New `pin_rescue()` function: attempts to fix common problems in PINs.
+
+
 # pinr 0.0.0.9007
+
+* `is_probably_pin()` gains a `data.frame` method. Use to check if a dataframe
+probably contains at least one PIN column (@sakasute).
 
 * New `is_valid_pin()` function: check if elements of a vector are valid PINs.
 

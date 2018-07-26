@@ -12,7 +12,7 @@ is_probably_pin(x, ...)
 \item{...}{Further arguments passed down to methods. Currently unused.}
 }
 \value{
-Logcial. Is the vector likely to contain pins?
+Logical. Is the vector likely to contain pins?
 }
 \description{
 Guess if a vector contains PINs
