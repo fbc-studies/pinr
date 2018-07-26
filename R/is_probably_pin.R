@@ -21,11 +21,6 @@ is_probably_pin.factor <- function(x, ...) {
 }
 
 #' @export
-is_probably_pin.data.frame <- function(x, ...) {
-  any(vapply(x, is_probably_pin, logical(1)))
-}
-
-#' @export
 is_probably_pin.character <- function(x, ...) {
 
   # Tavoitteena "fail fast" eli mahdollisimman nopeasti (ja mahdollisimman
@@ -80,4 +75,9 @@ is_probably_pin.character <- function(x, ...) {
 
   # Konservatiivisesti sanotaan kylla jos ei muuta aiemmin paateta
   TRUE
+}
+
+#' @export
+is_probably_pin.data.frame <- function(x, ...) {
+  any(vapply(x, is_probably_pin, logical(1)))
 }
