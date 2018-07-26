@@ -62,23 +62,9 @@ pin_validate <- function(x) {
   invalid <- !is.na(x) & !is_valid_pin(x) & x != ""
 
   if (any(invalid)) {
-    problems <- list_problems(x[invalid])
+    problems <- list_message(x[invalid])
     stop("Invalid PINs found:\n", problems, call. = FALSE)
   }
 
   x
-}
-
-list_problems <- function(problems, show_max = 5) {
-  n <- length(problems)
-
-  head <- head(problems, show_max)
-  msg <- paste("  *", head, collapse = "\n")
-
-  if (n > show_max) {
-    more <- comma(n - show_max)
-    msg <- paste0(msg, "\n... and ", more, " more.")
-  }
-
-  msg
 }

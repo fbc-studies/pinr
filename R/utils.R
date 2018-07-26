@@ -39,6 +39,20 @@ pad0 <- function(x, width, side = "left") {
   stringr::str_pad(x, width, pad = "0", side = side)
 }
 
+list_message <- function(x, truncate = 5) {
+  n <- length(x)
+
+  head <- head(x, truncate)
+  msg <- paste("  *", head, collapse = "\n")
+
+  if (n > truncate) {
+    more <- comma(n - truncate)
+    msg <- paste0(msg, "\n... and ", more, " more.")
+  }
+
+  msg
+}
+
 comma <- function(x, ...) {
   format(x, big.mark = ",", scientific = FALSE, ...)
 }
