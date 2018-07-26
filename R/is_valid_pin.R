@@ -53,6 +53,7 @@ check_char <- function(n) {
                   "A", "B", "C", "D", "E", "F", "H", "J", "K", "L",
                   "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y")
 
+#' @importFrom utils head
 pin_validate <- function(x) {
 
   # Placeholder function that ensures PINs are valid: a more thorough
