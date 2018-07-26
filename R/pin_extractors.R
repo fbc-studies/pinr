@@ -66,7 +66,7 @@ pin_century <- function(x) {
 #' @describeIn pin_extractors Extract sex from PIN
 #' @export
 pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
-  x <- 2L - as.integer(pin_get$end(x)) %% 2L
+  x <- 2L - pin_ordinal(x) %% 2L
 
   if (factor) {
     lang <- match.arg(language)
@@ -81,9 +81,15 @@ pin_sex <- function(x, factor = TRUE, language = c("english", "finnish")) {
   x
 }
 
+#' @describeIn pin_extractors Extract ordinal number from PIN
+#' @export
+pin_ordinal <- function(x) {
+  as.integer(pin_get$ord(x))
+}
+
 pin_get <- list(
   dob   = function(x) stringr::str_sub(x, 1L,  6L),
   sep   = function(x) stringr::str_sub(x, 7L,  7L),
-  end   = function(x) stringr::str_sub(x, 8L,  10L),
+  ord   = function(x) stringr::str_sub(x, 8L,  10L),
   check = function(x) stringr::str_sub(x, 11L, 11L)
 )

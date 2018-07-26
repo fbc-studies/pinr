@@ -40,7 +40,7 @@ has_valid_checksum <- function(x) {
 #' @param x vector of PINs
 #' @export
 pin_checksum <- function(x) {
-  n <- paste0(pin_get$dob(x), pin_get$end(x))
+  n <- paste0(pin_get$dob(x), pin_get$ord(x))
   n <- suppressWarnings(as.integer(n))
   check_char(n)
 }
