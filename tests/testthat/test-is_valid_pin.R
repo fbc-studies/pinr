@@ -33,4 +33,7 @@ test_that("pin_validate throws informative errors", {
   expect_error(pin_validate(LETTERS), "* D")
   expect_error(pin_validate(LETTERS), "* E")
   expect_error(pin_validate(LETTERS), "and \\d+ more")
+
+  long <- rep_len(LETTERS, 2000)
+  expect_error(pin_validate(long), "and 1,\\d+ more")
 })

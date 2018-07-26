@@ -38,3 +38,7 @@ str_append <- function(x, y, after = nchar(x)) {
 pad0 <- function(x, width, side = "left") {
   stringr::str_pad(x, width, pad = "0", side = side)
 }
+
+comma <- function(x, ...) {
+  format(x, big.mark = ",", scientific = FALSE, ...)
+}
