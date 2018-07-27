@@ -6,10 +6,10 @@
 \title{Pseudonymize columns in data containing PINs}
 \usage{
 pseudonymize(data, key, ..., guess = FALSE, replace = TRUE,
-  rename = !replace)
+  rename = !replace, quiet = FALSE)
 
 pseudonymise(data, key, ..., guess = FALSE, replace = TRUE,
-  rename = !replace)
+  rename = !replace, quiet = FALSE)
 }
 \arguments{
 \item{data}{A data frame containing PINs to be pseudonymized.}
@@ -28,11 +28,14 @@ columns that contain PINs?}
 \item{replace}{Logical. Should PIN columns be replaced with the pseudonymized
 versions?}
 
-\item{rename}{Logical or function. If `FALSE`, pseudonymized columns will
-not be automatically renamed; if `TRUE`, they will be suffixed with
-`"_pid"`; if a function, will be called on PIN column names to generate
-new names for the pseudonymized columns. Manually specified new names will
-always be used regardless.}
+\item{rename}{Logical or function. If `FALSE`, pseudonymized columns will not
+be automatically renamed; if `TRUE`, they will be suffixed with `"_pid"`;
+if a function, will be called on PIN column names to generate new names for
+the pseudonymized columns. Manually specified new names will always be used
+regardless.}
+
+\item{quiet}{Suppress additional messages? Currently controls showing a
+warning if pseudonymization results in all `NA` values in some column.}
 }
 \value{
 A data frame where PINs have probably been linked to pids. If

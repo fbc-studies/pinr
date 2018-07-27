@@ -1,5 +1,7 @@
 context("test-pseudonymize.R")
 
+## TODO: Add smaller tests for component functions to stop coalescing failures.
+
 df <- data.frame(pin = c("311280-888Y", "311280-888Y", "131052-308T"), a = 1:3)
 
 key <- c("311280-888Y" = 1, "131052-308T" = 2)
@@ -77,4 +79,14 @@ test_that("guessing finds valid pin columns", {
 
   expect_equal(out$pin,  c(1, 1, 2))
   expect_equal(out$pin2, c(1, 1, 2))
+})
+
+test_that("fully NA pseudonymized columns warn if quiet = TRUE", {
+  df <- data.frame(pin = c("311280888Y", "311280888Y", "131052308T"), a = 1:3)
+
+  expect_warning(pseudonymize(df, key, pid = pin), "all `NA` values")
+  expect_silent(pseudonymize(df, key, pid = pin, quiet = TRUE))
+
+  expect_warning(pseudonymize(df, key, a), "all `NA` values")
+  expect_silent(pseudonymize(df, key, a, quiet = TRUE))
 })

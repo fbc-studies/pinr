@@ -4,6 +4,11 @@
 
 * New `pin_rescue()` function: attempts to fix common problems in PINs.
 
+* New `pin_ordinal()` function: extract the ordinal number from a PIN.
+
+* `pseudonymize()` now warns if some pseudonymized columns only contain `NA`
+  values. Use `quiet = FALSE` to suppress these warnings.
+
 
 # pinr 0.0.0.9007
 
