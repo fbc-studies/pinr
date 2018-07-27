@@ -6,8 +6,8 @@
 
 * New `pin_ordinal()` function: extract the ordinal number from a PIN.
 
-* `pseudonymize()` now warns if some pseudonymized columns only contain `NA`
-  values. Use `quiet = FALSE` to suppress these warnings.
+* `pseudonymize()` now warns if some pseudonymized columns contain only `NA`
+  values. Use `quiet = TRUE` to suppress these warnings.
 
 
 # pinr 0.0.0.9007
