@@ -18,7 +18,7 @@ Currently you can install the development version from [GitHub](https://github.c
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mikmart/pinr")
+devtools::install_github("fbc-studies/pinr")
 ```
 
 Usage
