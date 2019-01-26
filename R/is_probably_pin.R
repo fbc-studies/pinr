@@ -23,36 +23,34 @@ is_probably_pin.factor <- function(x, ...) {
 #' @export
 is_probably_pin.character <- function(x, ...) {
 
-  # Tavoitteena "fail fast" eli mahdollisimman nopeasti (ja mahdollisimman
-  # vahin tarkistuksin) paatetaan etta kyseessa ei ole hetu. Nain funktiota
-  # on nopeampi ajaa, mika on olennaista kun aineistoja on kaytava lapi
-  # tuhansia, ja aineistoissa on parhaimmillaan useita satoja sarakkeita.
+  # Try to fail fast: return FALSE as soon as possible. Important when checking
+  # hundreds of columns in thousands of data sets.
 
   x <- x[!is.na(x) & x != ""]  # drop missing an empty strings
   x <- stringr::str_trim(x)    # as well as extra whitespace
 
+  # was everything missing or empty?
   if (length(x) == 0) {
     return(FALSE)
   }
 
-  # Merkkijonojen pituuteen perustuvia tarkistuksia -----
-
   n_char <- nchar(x)
 
+  # are there any way too long strings? (bit risky)
   if (max(n_char) > 12) {
     return(FALSE)
   }
 
-  hetu_mitat <- c(
-    0L,   # tyhja rivi
-    10L,  # epataydellinen hetu
-    11L   # taydellinen hetu
+  pin_lens <- c(
+    0L,   # empty row
+    10L,  # pin missing separator
+    11L   # complete pin
   )
 
-  p_in_mitat <- mean(n_char %in% hetu_mitat)
+  p_in_lens <- mean(n_char %in% pin_lens)
 
-  # Jos alle 90 % on hetun mittaisia niin ei varmaankaan hetu
-  if (p_in_mitat < 0.9) {
+  # Guess no if less than 90% have a valid length
+  if (p_in_lens < 0.9) {
     return(FALSE)
   }
 
@@ -67,13 +65,12 @@ is_probably_pin.character <- function(x, ...) {
   # PINs were stored with length 10 with the separator removed,
   # the implicit assumption being a `-` separator.
 
-  # Lapi paasee viela:
-  #  - merkkijonot,
-  #  - joissa kaikki < 13 merkkisia,
-  #  - ja yli 90 % joko 10 tai 11 merkkisia,
-  #  - ja alle 10 % ei saa validia paivamaaraa 6 ekasta merkista
+  # Guess yes if:
+  #  - everything has < 13 characters
+  #  - and > 90% have 10 or 11 characters
+  #  - and < 10% don't have a valid date in the first 6 characters
 
-  # Konservatiivisesti sanotaan kylla jos ei muuta aiemmin paateta
+  # Guess yes if none of the earlier criteria apply
   TRUE
 }
 
